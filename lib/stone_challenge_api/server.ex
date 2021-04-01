@@ -24,7 +24,7 @@ defmodule StoneChallengeApi.Server do
     individual_value = div(total, number_of_emails)
     reminder = rem(total, number_of_emails)
 
-    result = Enum.reduce(emails_list, %{result: %{}, reminder: reminder}, fn
+    data = Enum.reduce(emails_list, %{result: %{}, reminder: reminder}, fn
       email, %{result: %{}, reminder: 0} = acc ->
         put_in(acc, [:result, email], individual_value)
       email, acc ->
@@ -32,7 +32,7 @@ defmodule StoneChallengeApi.Server do
         put_in(acc, [:reminder], acc[:reminder] - 1)
     end)
 
-    send_resp(conn, 200, "#{inspect(result[:result])}")
+    send_resp(conn, 200, "#{inspect(data[:result])}")
   end
 
   match _ do
